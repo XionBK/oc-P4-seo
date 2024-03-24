@@ -61,9 +61,9 @@
     $(".gallery").on("click", ".mg-prev", () =>
       $.fn.mauGallery.methods.prevImage(options.lightboxId)
     );
-    $(".gallery").on("click", ".mg-next", () =>
-      $.fn.mauGallery.methods.nextImage(options.lightboxId)
-    );
+    $(".gallery").on("click", ".mg-next", () => {
+      $.fn.mauGallery.methods.nextImage()
+    });
   };
   $.fn.mauGallery.methods = {
     createRowWrapper(element) {
@@ -153,18 +153,19 @@
           index = i ;
         }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
+      index--
+      next = imagesCollection[index] || imagesCollection[imagesCollection.length - 1];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     nextImage() {
       let activeImage = null;
+      
       $("img.gallery-item").each(function() {
         if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
           activeImage = $(this);
         }
       });
+      
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
       let imagesCollection = [];
       if (activeTag === "all") {
@@ -192,6 +193,7 @@
           index = i;
         }
       });
+      index++
       next = imagesCollection[index] || imagesCollection[0];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
@@ -240,6 +242,7 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
+      $(this).addClass("active");
       $(this).addClass("active-tag");
 
       var tag = $(this).data("images-toggle");
